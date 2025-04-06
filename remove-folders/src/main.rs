@@ -58,14 +58,26 @@ fn main() {
 
     println!("{}", crate_name!());
     println!("Version: {}", crate_version!());
+
+    // Create a PathBuf from the base folder string
+    let base_folder: PathBuf = args.base_folder.into();
+
+    // Canonicalise the base folder
+    let base_folder = match base_folder.canonicalize() {
+        Ok(path) => path,
+        Err(e) => {
+            eprintln!("Error: {}", e);
+            return;
+        }
+    };
+
+    // Print the base folder and the folder to remove
     println!(
         "Searching {} for folders named: {}",
-        args.base_folder, args.folder
+        base_folder.display(),
+        args.folder
     );
     println!();
-
-    // Try to change the base folder to an OsStr
-    let base_folder: PathBuf = args.base_folder.into();
 
     // Check if the base folder exists
     if !base_folder.exists() {

@@ -1,6 +1,6 @@
 [package]
 name = "remove-folders"
-version = "1.0.4"
+version = "1.0.9"
 edition = "2024"
 
 [dependencies]
