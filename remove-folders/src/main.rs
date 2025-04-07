@@ -1,5 +1,6 @@
 use std::{
-    fs, io,
+    fs,
+    io::{self, Write},
     path::{Path, PathBuf},
 };
 
@@ -81,13 +82,13 @@ fn main() {
 
     // Check if the base folder exists
     if !base_folder.exists() {
-        eprintln!("Error: Base folder does not exist.");
+        eprintln!("Error: {} does not exist.", base_folder.display());
         return;
     }
 
     // Check if the base folder is a directory
     if !base_folder.is_dir() {
-        eprintln!("Error: Base folder is not a directory.");
+        eprintln!("Error: {} is not a directory.", base_folder.display());
         return;
     }
 
@@ -102,20 +103,22 @@ fn main() {
 
     // Print the folders which will be removed
     if paths.is_empty() {
-        println!("No folders found to remove.");
+        println!("No folders found to remove, exiting.");
         return;
     }
     println!("Found {} folders to remove:", paths.len());
 
     // Ask the user for confirmation
     println!();
-    println!("Are you sure you want to remove these folders? (y/n)");
+    print!("Are you sure you want to remove these folders (y/n)?: ");
+    io::stdout().flush().expect("Failed to flush stdout");
     let mut input = String::new();
     io::stdin()
         .read_line(&mut input)
         .expect("Failed to read line");
     let input = input.trim().to_lowercase();
     if input != "y" {
+        println!();
         println!("Exiting without removing folders.");
         return;
     }
