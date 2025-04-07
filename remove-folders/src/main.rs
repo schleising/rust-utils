@@ -125,10 +125,13 @@ fn main() {
     println!();
     println!("Removing folders...");
 
+    // Get the maximum printed width of the number of folders
+    let max_width = paths.len().to_string().len();
+
     // Remove the folders
     for (count, path) in paths.iter().enumerate() {
         println!(
-            "Removing folder {:2} of {:2}: {}",
+            "Removing folder {:max_width$} of {:max_width$}: {}",
             count + 1,
             paths.len(),
             path.display()
